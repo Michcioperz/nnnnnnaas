@@ -25,7 +25,7 @@ def repeater(texts: list, paragraphs: int = 1, repeats: int = 6) -> list:
 
 @app.route("/")
 def index() -> Response:
-    return render_template("landing.html", formats=list(FORMATS), texts=list(TEXTS))
+    return render_template("landing.html", formats=sorted(FORMATS.keys()), texts=sorted(TEXTS.keys()), limit=MAX_LENGTH)
 
 
 @app.route("/api/data.json")
