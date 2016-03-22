@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
-  <style>li {
+  <style>
+    body {
+      font-family: {{ choice(['"Lato"','"Roboto"','"La Belle Aurore"']) | safe }}, sans-serif;
+    }
+
+    li {
     display: inline;
   }</style>
 </head>

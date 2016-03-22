@@ -1,3 +1,5 @@
+from random import choice
+
 from dicttoxml import dicttoxml
 from flask import Flask, request, Response, jsonify, render_template
 
@@ -8,7 +10,7 @@ MAX_LENGTH = 500000
 FORMATS = {"xml": lambda ret: Response(dicttoxml(ret), mimetype="application/xml"),
            "json": lambda ret: jsonify(response=ret),
            "txt": lambda ret: Response("\n\n".join(["".join(x) for x in ret]), mimetype="text/plain"),
-           "html": lambda ret: render_template("gimme.html", ret=ret)}
+           "html": lambda ret: render_template("gimme.html", ret=ret, choice=choice)}
 
 TEXTS = {"nano": ["NANO"], "hakase": ["HAKASE"], "adore": ["NANO", "HAKASE"], "asie": ["ASIE"]}
 
