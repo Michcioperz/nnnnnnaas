@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <style>li {
+    display: inline;
+  }</style>
+</head>
+<body>
+{% for x in ret %}
+  <ul>
+    {% for y in x %}
+      <li>{{ y }}</li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+</body>
+</html>

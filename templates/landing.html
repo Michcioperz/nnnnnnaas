@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  <title>NANONANONANONANONANONANO-as-a-Service</title>
+  <style>
+    body {
+      font-family: "Lato", "Roboto", "just anything extraordinary would work fine", sans-serif;
+    }
+
+    main {
+      padding-top: 40px;
+      padding-left: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 50vh;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
+</head>
+<body>
+<main>
+  <h1>NANO
+    <wbr>
+    NANO
+    <wbr>
+    NANO
+    <wbr>
+    NANO
+    <wbr>
+    NANO
+    <wbr>
+    NANO
+    <wbr>
+    <small>-as
+      <wbr>
+      -a
+      <wbr>
+      -Service
+      <small>v2</small>
+    </small>
+  </h1>
+  <h3>kindly provided by <a href="https://ijestfajnie.pl">Michcioperz</a></h3>
+  <hr/>
+  <h2><code id="uri">/<span id="target">{target}</span>.<span id="format">{format}</span>?paragraphs=<span
+          id="paragraphs">1</span>&repeats=<span id="repeats">6</span></code></h2>
+</main>
+<script>
+  var formats, texts;
+  function randomFrom(arr) {
+    return arr[Math.round(Math.random() * arr.length)];
+  }
+  $(document).ready(function () {
+    $.getJSON("{{ url_for("api_json") }}", function (data) {
+      formats = data.formats;
+      texts = data.texts;
+      $("h2").prepend($("<button></button>").text("Randomize!").click(function () {
+        $("#target").text(randomFrom(texts));
+        $("#format").text(randomFrom(formats));
+        $("#paragraphs").text("" + Math.round(Math.random() * 10 + 1));
+        $("#repeats").text("" + Math.round(Math.random() * 10 + 1));
+        $.ajax($("code#uri").text(), {dataType: "text"}).done(function (data) {
+          $("textarea#magic").text(data);
+        });
+      }));
+      $("main").append($("<textarea></textarea>").attr("id", "magic").attr("disabled", "disabled"));
+    });
+  });
+</script>
+</body>
+</html>
