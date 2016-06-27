@@ -1,7 +1,9 @@
+import json
 from random import choice
 
 from dicttoxml import dicttoxml
 from flask import Flask, request, Response, jsonify, render_template
+from redis import Redis
 
 app = Flask(__name__)
 
@@ -14,10 +16,13 @@ FORMATS = {"xml": lambda ret: Response(dicttoxml(ret), mimetype="application/xml
 
 TEXTS = {"nano": ["NANO"], "hakase": ["HAKASE"], "adore": ["NANO", "HAKASE"], "asie": ["ASIE"]}
 
+count_cache = Redis()
+
 
 def repeater(texts: list, paragraphs: int = 1, repeats: int = 6) -> list:
     if sum([len(x) for x in texts]) * paragraphs * repeats > MAX_LENGTH:
         return [["baka hentai"]]
+    count_cache.incr("nnnnnnaas:"+json.dumps(texts), paragraphs*repeats)
     ret = []
     for _ in range(paragraphs):
         for text in texts:
