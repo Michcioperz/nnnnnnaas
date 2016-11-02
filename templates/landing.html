@@ -60,7 +60,7 @@
 <script>
   var formats, texts;
   function randomFrom(arr) {
-    return arr[Math.round(Math.random() * arr.length)];
+    return arr[Math.floor(Math.random() * arr.length)];
   }
   $(document).ready(function () {
     $.getJSON("{{ url_for("api_json") }}", function (data) {
