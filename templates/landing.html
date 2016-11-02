@@ -51,8 +51,11 @@
   <h4>targets: {{ ", ".join(texts) }}</h4>
   <h4>formats: {{ ", ".join(formats) }}</h4>
   <h4>response char limit: {{ limit }}</h4>
-  <h2><code id="uri">/<span id="target">{target}</span>.<span id="format">{format}</span>?paragraphs=<span
-          id="paragraphs">1</span>&repeats=<span id="repeats">6</span></code></h2>
+  <h2>
+    <code id="uri">
+      <a href="#">/<span id="target">{target}</span>.<span id="format">{format}</span>?paragraphs=<span id="paragraphs">1</span>&repeats=<span id="repeats">6</span></a>
+    </code>
+  </h2>
 </main>
 <script>
   var formats, texts;
@@ -68,6 +71,7 @@
         $("#format").text(randomFrom(formats));
         $("#paragraphs").text("" + Math.round(Math.random() * 10 + 1));
         $("#repeats").text("" + Math.round(Math.random() * 10 + 1));
+        $("code#uri a").attr("href", $("code#uri").text());
         $.ajax($("code#uri").text(), {dataType: "text"}).done(function (data) {
           $("textarea#magic").text(data);
         });
