@@ -15,7 +15,8 @@ FORMATS = {"xml": lambda ret: Response(dicttoxml(ret), mimetype="application/xml
            "txt": lambda ret: Response("\n\n".join(["".join(x) for x in ret]), mimetype="text/plain"),
            "html": lambda ret: render_template("gimme.html", ret=ret, choice=choice)}
 
-TEXTS = {"nano": ["NANO"], "hakase": ["HAKASE"], "adore": ["NANO", "HAKASE"], "asie": ["ASIE"]}
+TEXTS = {"nano": ["NANO"], "hakase": ["HAKASE"], "adore": ["NANO", "HAKASE"], "asie": ["ASIE"], "hakasie": ["HAKASIE"],
+         "tap": ["*taps asie's head*", "dlaczego mogę ją tapować po łebku?"]}
 
 count_cache = Redis(db=int(os.getenv("REDIS_DB", 0)))
 
