@@ -1,3 +1,4 @@
+import os
 import json
 from random import choice
 
@@ -16,7 +17,7 @@ FORMATS = {"xml": lambda ret: Response(dicttoxml(ret), mimetype="application/xml
 
 TEXTS = {"nano": ["NANO"], "hakase": ["HAKASE"], "adore": ["NANO", "HAKASE"], "asie": ["ASIE"]}
 
-count_cache = Redis()
+count_cache = Redis(db=int(os.getenv("REDIS_DB", 0)))
 
 
 def repeater(texts: list, paragraphs: int = 1, repeats: int = 6) -> list:
