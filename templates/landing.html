@@ -20,7 +20,6 @@
       height: 50vh;
     }
   </style>
-  <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
 </head>
 <body>
 <main>
@@ -58,27 +57,54 @@
   </h2>
 </main>
 <script>
-  var formats, texts;
+  var formats, texts
+  var main = document.querySelector('main')
   function randomFrom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+    return arr[Math.floor(Math.random() * arr.length)]
   }
-  $(document).ready(function () {
-    $.getJSON("{{ url_for("api_json") }}", function (data) {
-      formats = data.formats;
-      texts = data.texts;
-      $("h2").prepend($("<button></button>").text("Randomize!").click(function () {
-        $("#target").text(randomFrom(texts));
-        $("#format").text(randomFrom(formats));
-        $("#paragraphs").text("" + Math.round(Math.random() * 10 + 1));
-        $("#repeats").text("" + Math.round(Math.random() * 10 + 1));
-        $("code#uri a").attr("href", $("code#uri").text());
-        $.ajax($("code#uri").text(), {dataType: "text"}).done(function (data) {
-          $("textarea#magic").text(data);
-        });
-      }));
-      $("main").append($("<textarea></textarea>").attr("id", "magic").attr("disabled", "disabled"));
-    });
-  });
+  if (self.fetch) {
+    fetch('{{ url_for('api_json') }}').then((response) => {
+      return response.json()
+    }).then((data) => {
+      formats = data.formats
+      texts = data.texts
+      var uriElement = document.getElementById('uri')
+      var targetElement = document.getElementById('target')
+      var formatElement = document.getElementById('format')
+      var paragraphsElement = document.getElementById('paragraphs')
+      var repeatsElement = document.getElementById('repeats')
+      var magicField = document.createElement('textarea')
+      magicField.setAttribute('id', 'magic')
+      magicField.setAttribute('readonly', 'readonly')
+      main.appendChild(magicField)
+      var randomizer = document.createElement('button')
+      randomizer.textContent = "Randomize!"
+      randomizer.addEventListener('click', () => {
+        targetElement.textContent = randomFrom(texts)
+        formatElement.textContent = randomFrom(formats)
+        paragraphsElement.textContent = '' + Math.round(Math.random() * 10 + 1)
+        repeatsElement.textContent = '' + Math.round(Math.random() * 10 + 1)
+        var url = uriElement.textContent.trim()
+        uriElement.getElementsByTagName('a')[0].setAttribute('href', url)
+        fetch(url).then((response) => {
+          return response.text()
+        }).then((body) => {
+          magicField.textContent = body
+        })
+      })
+      var twohead = document.getElementsByTagName('h2')[0]
+      twohead.insertBefore(randomizer, twohead.firstChild)
+    }).catch((ex) => {
+      console.log(ex)
+      var fallback = document.createElement('h5')
+      fallback.textContent = "Dynamic API preview was disabled because we were unable to fetch initial API data"
+      main.appendChild(fallback)
+    })
+  } else {
+    var fallback = document.createElement('h5')
+    fallback.textContent = "Dynamic API preview was disabled because we did not detect fetch capability in your browser. Perhaps it's outdated, but we do not know that for sure"
+    main.appendChild(fallback)
+  }
 </script>
 </body>
 </html>
