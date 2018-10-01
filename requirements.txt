@@ -2,3 +2,4 @@ redis
 hiredis
 dicttoxml
 flask
+matplotlib
